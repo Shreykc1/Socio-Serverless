@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignInValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
-import { useSignInAccount } from "@/lib/react-query/queriesandmutations";
+import { useDeleteSessions, useSignInAccount } from "@/lib/react-query/queriesandmutations";
 import { Toast } from "@radix-ui/react-toast";
 import { useUserContext } from "@/context/AuthContext";
 
@@ -28,6 +28,8 @@ const SignInForm = () => {
   const navigate = useNavigate();
 
   const {mutateAsync: signInAccount} = useSignInAccount();
+  const {mutateAsync: deleteAllActiveSessions} = useDeleteSessions();
+  
 
 
   const form = useForm<z.infer<typeof SignInValidation>>({
@@ -40,6 +42,9 @@ const SignInForm = () => {
 
   
   async function onSubmit(values: z.infer<typeof SignInValidation>) {
+        
+
+        deleteAllActiveSessions();
 
        const session = await signInAccount({
         email: values.email,
@@ -51,7 +56,7 @@ const SignInForm = () => {
           title: "Sign in failed. Please try again.",
           description: "Sorry for the inconvinience 😇",
         })
-       }
+       } 
 
        const isLoggedIn = await checkAuthUser();
 
@@ -60,6 +65,7 @@ const SignInForm = () => {
         navigate('/');
        }
        else{
+        deleteAllActiveSessions();
         return  toast({
           title: "Sign in failed. Please try again.",
           description: "Sorry for the inconvinience 😇",
