@@ -9,6 +9,14 @@ import { Route, Routes } from 'react-router-dom'
 
 
 import { Toaster } from "@/components/ui/toaster"
+import Explore from './_root/pages/Explore'
+import Saved from './_root/pages/Saved'
+import AllUsers from './_root/pages/AllUsers'
+import CreatePosts from './_root/pages/CreatePosts'
+import UpdatePosts from './_root/pages/UpdatePosts'
+import Posts from './_root/pages/Posts'
+import Profile from './_root/pages/Profile'
+import UpdateProfile from './_root/pages/UpdateProfile'
 
 
 const App = () => {
@@ -25,6 +33,14 @@ const App = () => {
                         {/* private routes  */}
           <Route element={<RootLayout />}>
             <Route index element={<Home/>} />
+            <Route path='/explore' element={<Explore />} />
+            <Route path='/saved' element={<Saved />} />
+            <Route path='/all-users' element={<AllUsers />} />
+            <Route path='/create-post' element={<CreatePosts />} />
+            <Route path='/update-post/:id' element={<UpdatePosts />} />
+            <Route path='/post/:id' element={<Posts />} />
+            <Route path='/profile/:id/*' element={<Profile />} />
+            <Route path='/update-profile/:id' element={<UpdateProfile />} />
           </Route>
         </Routes>
 
