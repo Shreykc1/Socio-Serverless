@@ -275,14 +275,14 @@ export async function getCurrentUser() {
   }
   
   // ============================== GET POST BY ID
-  export async function getPostById(postId?: string) {
-    if (!postId) throw Error;
+  export async function getPostById(postID?: string) {
+    if (!postID) throw Error;
   
     try {
       const post = await databases.getDocument(
         appwriteConfig.databaseId,
         appwriteConfig.postsCollectionId,
-        postId
+        postID
       );
   
       if (!post) throw Error;
@@ -379,12 +379,12 @@ export async function getCurrentUser() {
   }
   
   // ============================== LIKE / UNLIKE POST
-  export async function likePost(postId: string, likesArray: string[]) {
+  export async function likePost(postID: string, likesArray: string[]) {
     try {
       const updatedPost = await databases.updateDocument(
         appwriteConfig.databaseId,
         appwriteConfig.postsCollectionId,
-        postId,
+        postID,
         {
           likes: likesArray,
         }
@@ -399,15 +399,15 @@ export async function getCurrentUser() {
   }
   
   // ============================== SAVE POST
-  export async function savePost(userId: string, postId: string) {
+  export async function savePost(userID: string, postID: string) {
     try {
       const updatedPost = await databases.createDocument(
         appwriteConfig.databaseId,
         appwriteConfig.savesCollectionId,
         ID.unique(),
         {
-          user: userId,
-          post: postId,
+          user: userID,
+          post: postID,
         }
       );
   
@@ -436,14 +436,14 @@ export async function getCurrentUser() {
   }
   
   // ============================== GET USER'S POST
-  export async function getUserPosts(userId?: string) {
-    if (!userId) return;
+  export async function getUserPosts(userID?: string) {
+    if (!userID) return;
   
     try {
       const post = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.postsCollectionId,
-        [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+        [Query.equal("creator", userID), Query.orderDesc("$createdAt")]
       );
   
       if (!post) throw Error;

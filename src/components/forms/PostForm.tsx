@@ -18,85 +18,104 @@ import { Models } from "appwrite";
 import { useUserContext } from "@/context/AuthContext";
 import { toast, useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useCreatePost } from "@/lib/react-query/queriesandmutations";
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesandmutations";
+import { updatePost } from "@/lib/appwrite/api";
+import { Loader } from "lucide-react";
 
 type PostFormProps = {
   post?: Models.Document;
+  action: "Create" | "Update";
 };
 
-const PostForm = ({ post }: PostFormProps) => {
-  const { mutateAsync: createPost, isPending: isLoadingCreate } =
-    useCreatePost();
-  const { user } = useUserContext();
-  const { toast } = useToast();
+const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
-
+  const { toast } = useToast();
+  const { user } = useUserContext();
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
-      file: [],
       caption: post ? post?.caption : "",
-      location: post ? post?.location : "",
+      file: [],
+      location: post ? post.location : "",
       tags: post ? post.tags.join(",") : "",
     },
   });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof PostValidation>) {
+  // Query
+  const { mutateAsync: createPost, isPending: isLoadingCreate } =
+    useCreatePost();
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+    useUpdatePost();
+
+  // Handler
+  const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
+    // ACTION = UPDATE
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...value,
+        postID: post.$id,
+        imageID: post.imageID,
+        imageURL: post.imageURL,
+      });
+
+      if (!updatedPost) {
+        toast({
+          title: `${action} post failed. Please try again.`,
+        });
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
+
+    // ACTION = CREATE
     const newPost = await createPost({
-      ...values,
+      ...value,
       userID: user.id,
     });
 
     if (!newPost) {
-      return toast({
-        title: "Please try again",
+      toast({
+        title: `${action} post failed. Please try again.`,
       });
     }
-
     navigate("/");
-  }
+  };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col w-full max-w-5xl gap-10 "
-      >
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex flex-col gap-9 w-full  max-w-5xl">
+       
+
         <FormField
           control={form.control}
           name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label ml-2">
-                Upload Photos
-              </FormLabel>
+              <FormLabel className="shad-form_label">Add Photos</FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
                   mediaURL={post?.imageURL}
                 />
               </FormControl>
-
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
 
-        <FormField
+<FormField
           control={form.control}
           name="caption"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label ml-2">Caption</FormLabel>
+              <FormLabel className="shad-form_label">Caption</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Google a good caption..."
+                <Textarea placeholder="Googling it..."
                   className="shad-textarea custom-scrollbar"
                   {...field}
                 />
               </FormControl>
-
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -107,13 +126,10 @@ const PostForm = ({ post }: PostFormProps) => {
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label ml-2">
-                Add Location
-              </FormLabel>
+              <FormLabel className="shad-form_label">Add Location</FormLabel>
               <FormControl>
                 <Input type="text" className="shad-input" {...field} />
               </FormControl>
-
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
@@ -124,32 +140,35 @@ const PostForm = ({ post }: PostFormProps) => {
           name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label ml-2">
-                Add Tags (seperated by comma " , ")
+              <FormLabel className="shad-form_label">
+                Add Tags (separated by comma " , ")
               </FormLabel>
               <FormControl>
                 <Input
+                  placeholder="Art, Expression, Learn"
                   type="text"
                   className="shad-input"
-                  placeholder="Art, Dance, Funny, Travel"
                   {...field}
                 />
               </FormControl>
-
               <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
 
-        <div className="flex items-center justify-end gap-4">
-          <Button type="button" className="shad-button_dark_4">
+        <div className="flex gap-4 items-center justify-end">
+          <Button
+            type="button"
+            className="shad-button_dark_4"
+            onClick={() => navigate(-1)}>
             Cancel
           </Button>
           <Button
             type="submit"
-            className="shad-button_primary whitespace-nowrap p-5 py-[1.4rem]"
-          >
-            Submit
+            className="shad-button_primary whitespace-nowrap"
+            disabled={isLoadingCreate || isLoadingUpdate}>
+            {(isLoadingCreate || isLoadingUpdate) && <Loader />}
+            {action} Post
           </Button>
         </div>
       </form>
