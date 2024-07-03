@@ -82,8 +82,8 @@ const SignInForm = () => {
           Log in to your account
         </h2>
 
-        <p className="text-light-3 small-medium md:base-regular mt-2">
-          Welcome back!, please enter your account details
+        <p className="text-light-3 small-medium md:base-regular text-center mt-2">
+          Welcome back, Please enter your account details
         </p>
 
         <form
