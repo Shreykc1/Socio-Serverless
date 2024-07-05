@@ -418,6 +418,47 @@ export async function getCurrentUser() {
       console.log(error);
     }
   }
+
+
+
+// ======================================== get saved posts//
+
+
+
+
+export async function getSavedPosts(userID: string) {
+  if (!userID) return;
+  try {
+    const getPost = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      [
+        Query.equal('user', userID)
+      ]
+    );
+
+    if (!getPost.documents || getPost.documents.length === 0) {
+      throw new Error('No posts found');
+    }
+
+    console.log('Fetched posts:', getPost.documents); // Log the fetched posts
+
+    // Extract user and post fields manually
+    const posts = getPost.documents.map(doc => ({
+      user: doc.user,
+      post: doc.post,
+    }));
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching saved posts:', error);
+    throw error; // Re-throw the error to handle it in the hook
+  }
+}
+
+
+
+
   // ============================== DELETE SAVED POST
   export async function deleteSavedPost(savedRecordId: string) {
     try {
@@ -470,6 +511,11 @@ export async function getCurrentUser() {
       console.log(error);
     }
   }
+
+
+
+
+
   
   // ============================================================
   // USER
