@@ -3,11 +3,6 @@ import PostForm from "@/components/forms/PostForm"
 const CreatePosts = () => {
 
 
-   // 1. Define your form.
-  
-
-
-
 
   return (
     <div className="flex flex-1">
