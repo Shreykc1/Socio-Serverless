@@ -5,9 +5,10 @@ import {
     useInfiniteQuery,
     QueryClient,
 } from '@tanstack/react-query'
-import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts } from '../appwrite/api'
-import { INewPost, INewUser, IUpdatePost } from '@/types'
+import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers } from '../appwrite/api'
+import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
+import { Models } from 'appwrite'
 
 
 export const useCreateUserAccount = () =>{
@@ -58,6 +59,7 @@ export const useGetRecentPosts = () => {
         queryFn: getRecentPosts,
     })
 }
+
 
 export const useGetSavedPosts = (userID:string) => {
   return useQuery({
@@ -155,6 +157,28 @@ export const useLikePost = () => {
     })
   }
 
+
+  interface MutationArgs {
+    values: IUpdateProfile;
+    user: IUser;
+  }
+  
+  export const useUpdateProfile = () => {
+    const queryClient = useQueryClient();
+  
+    return useMutation<Models.Document | undefined, Error, MutationArgs>({
+      mutationFn: async ({ values, user }: MutationArgs) => updateProfile(values, user),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+        });
+      },
+    });
+  };
+
   export const useDeletePost = () => {
     const queryClient = useQueryClient();
 
@@ -208,12 +232,12 @@ export const useLikePost = () => {
     });
   };
   
-//   export const useGetUsers = (limit?: number) => {
-//     return useQuery({
-//       queryKey: [QUERY_KEYS.GET_USERS],
-//       queryFn: () => getUsers(limit),
-//     });
-//   };
+  export const useGetUsers = (limit?: number) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_USERS],
+      queryFn: () => getUsers(limit),
+    });
+  };
   
 //   export const useGetUserById = (userId: string) => {
 //     return useQuery({

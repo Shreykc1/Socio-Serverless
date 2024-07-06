@@ -19,3 +19,13 @@ export const SignupValidation = z.object({
     location: z.string().min(2, {message: "Location too short init mate?"}).max(100, {message: "Message too long init mate?"}),
     tags: z.string().max(200, {message: "Too many tags mate!"}),
   });
+
+
+
+  export const ProfileValidation = z.object({
+    file: z.custom<File[]>(),
+    bio: z.string().min(4,{ message:"bio too short"}).max(100, {message:"bio too long!"})
+  });
+
+
+

@@ -4,7 +4,7 @@ import SearchResults from "@/components/shared/SearchResults";
 import { Input } from "@/components/ui/input"
 import useDebounce from "@/hooks/useDebouncer";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesandmutations";
-import { useState,useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useInView } from "react-intersection-observer";
 
 const Explore = () => {
@@ -30,7 +30,7 @@ const Explore = () => {
    }
 
   const showSearchResults = searchValue !== "";
-  const showPosts = !showSearchResults && posts.pages.every((item) => item.documents.length === 0);
+  const showPosts = !showSearchResults && posts.pages.every((item) => item?.documents.length === 0);
   return (
     <div className="explore-container">
         <div className="explore-inner_container">

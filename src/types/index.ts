@@ -47,6 +47,12 @@ export type INavLink = {
     password: string;
   };
 
+
+  export type IUpdateProfile = {
+    bio: string;
+    file: File[];
+  }
+
   export type IContextType = {
     user: IUser,
     isLoading: boolean,

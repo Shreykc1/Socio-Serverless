@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from "@/types";
 import { ID, Query } from 'appwrite';
 import { account, appwriteConfig, avatars, databases,storage } from "./config";
 
@@ -189,6 +189,49 @@ export async function getCurrentUser() {
     }
   }
   
+
+
+
+  export async function updateProfile(values: IUpdateProfile,user: IUser) {
+    try {
+      // Upload file to appwrite storage
+      const uploadedFile = await uploadFile(values.file[0]);
+  
+      if (!uploadedFile) throw Error;
+  
+      // Get file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+  
+      // Update
+      const updateDB = await databases.updateDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.usersCollectionId,
+        user.id,
+        {
+          bio: values.bio,
+          imageURL: fileUrl,
+        }
+      );
+  
+      if (!updateDB) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+  
+      return updateDB;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+
+
   // ============================== UPLOAD FILE
   export async function uploadFile(file: File) {
     try {
