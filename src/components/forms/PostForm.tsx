@@ -18,13 +18,13 @@ import { Models } from "appwrite";
 import { useUserContext } from "@/context/AuthContext";
 import { toast, useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesandmutations";
+import { useCreatePost, useRePost, useUpdatePost } from "@/lib/react-query/queriesandmutations";
 import { updatePost } from "@/lib/appwrite/api";
 import { Loader } from "lucide-react";
 
 type PostFormProps = {
   post?: Models.Document;
-  action: "Create" | "Update";
+  action: "Create" | "Update" | "Repost";
 };
 
 const PostForm = ({ post, action }: PostFormProps) => {
@@ -47,6 +47,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
   const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
     useUpdatePost();
 
+    const { mutateAsync: rePost, isPending: isLoadingRepost } =
+    useRePost();
+
   // Handler
   const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
     // ACTION = UPDATE
@@ -64,6 +67,23 @@ const PostForm = ({ post, action }: PostFormProps) => {
         });
       }
       return navigate(`/posts/${post.$id}`);
+    }
+
+    // ACTION = REPOST
+
+    if (post && action === "Repost") {
+      console.log('posts : ' ,post)
+      const rePosted = await rePost({
+       post: post,
+       user:user
+      });
+
+      if (!rePosted) {
+        toast({
+          title: `${action} post failed. Please try again.`,
+        });
+      }
+      return navigate(`/`);
     }
 
     // ACTION = CREATE

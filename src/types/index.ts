@@ -30,6 +30,17 @@ export type INavLink = {
     location?: string;
     tags?: string;
   };
+
+  export type IRePost = {
+    postID: string;
+    caption: string;
+    imageID: string;
+    imageURL: URL;
+    file: File[]
+    location?: string;
+    tags?: string;
+    
+  };
   
   export type IUser = {
     id: string;

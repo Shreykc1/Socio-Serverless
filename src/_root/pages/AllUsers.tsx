@@ -16,6 +16,7 @@ const AllUsers = () => {
                       <div className='flex flex-col gap-2'>
                       <p className='small-regular text-light-3'>@{users.username}</p>
                       <p className='small-regular text-light-2'>{users.bio}</p>
+                      
                       </div>
                     </div>
         ))

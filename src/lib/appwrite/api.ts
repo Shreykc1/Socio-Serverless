@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from "@/types";
+import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from "@/types";
 import { ID, Query } from 'appwrite';
 import { account, appwriteConfig, avatars, databases,storage } from "./config";
 
@@ -399,6 +399,61 @@ export async function getCurrentUser() {
       console.log(error);
     }
   }
+
+
+
+//  ========================== REPOST =====================  > 
+
+export async function rePost(post: IUpdatePost,user: IUser) {
+
+  try {
+    let image = {
+      imageURL: post.imageURL,
+      imageID: post.imageID,
+    };
+
+      image = { ...image, imageURL: post.imageURL, imageID: post.imageID };
+    
+
+    // Convert tags into array
+    // const tags = post.tags?.replace(/ /g, "").split(",") || [];
+    const tags = post.tags || [];
+
+    const newPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postsCollectionId,
+      ID.unique(),
+      {
+        creator: user.id,
+        caption: post.caption,
+        imageURL: image.imageURL,
+        imageID: image.imageID,
+        location: post.location,
+        tags: tags,
+      }
+    );
+
+    // Failed to update
+    if (!newPost) {
+
+        await deleteFile(image.imageID);
+
+      throw Error;
+    }
+
+    // Safely delete old file after successful update
+    
+      await deleteFile(post.imageID);
+    
+
+    return newPost;
+  
+  
+} catch (error) {
+    console.log(error);
+  }
+}
+
   
   // ============================== DELETE POST
   export async function deletePost(postId?: string, imageID?: string) {

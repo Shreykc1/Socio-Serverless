@@ -5,8 +5,8 @@ import {
     useInfiniteQuery,
     QueryClient,
 } from '@tanstack/react-query'
-import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers } from '../appwrite/api'
-import { INewPost, INewUser, IUpdatePost, IUpdateProfile, IUser } from '@/types'
+import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts } from '../appwrite/api'
+import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 import { Models } from 'appwrite'
 
@@ -59,6 +59,14 @@ export const useGetRecentPosts = () => {
         queryFn: getRecentPosts,
     })
 }
+
+export const useGetUserPosts = (userId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS, userId],
+    queryFn: () => getUserPosts(userId),
+    enabled: !!userId,
+  });
+};
 
 
 export const useGetSavedPosts = (userID:string) => {
@@ -157,6 +165,22 @@ export const useLikePost = () => {
     })
   }
 
+  export const useRePost = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: async (args: { post: IUpdatePost; user: IUser }) => {
+        const { post, user } = args;
+        return rePost(post, user); // Now you're calling updatePost with destructured arguments
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_POST_BY_ID, data?.id]
+        });
+      }
+    });
+};
+
 
   interface MutationArgs {
     values: IUpdateProfile;
@@ -239,13 +263,13 @@ export const useLikePost = () => {
     });
   };
   
-//   export const useGetUserById = (userId: string) => {
-//     return useQuery({
-//       queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
-//       queryFn: () => getUserById(userId),
-//       enabled: !!userId,
-//     });
-//   };
+  // export const useGetUserById = (userId: string) => {
+  //   return useQuery({
+  //     queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+  //     queryFn: () => getUserById(userId),
+  //     enabled: !!userId,
+  //   });
+  // };
   
 //   export const useUpdateUser = () => {
 //     const queryClient = useQueryClient();

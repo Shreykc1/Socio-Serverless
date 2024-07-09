@@ -3,8 +3,9 @@ import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from 
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite"
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,Navigate, useNavigate } from "react-router-dom";
 import { record } from "zod";
+
 
 type PostStatsProps = {
     post: Models.Document,
@@ -13,6 +14,7 @@ type PostStatsProps = {
 
 const PostStats = ({ post, userID }: PostStatsProps) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const likesList = post.likes.map((user: Models.Document) => user.$id);
   
     const [likes, setLikes] = useState<string[]>(likesList);
@@ -62,6 +64,11 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
       savePost({ userID: userID, postID: post.$id });
       setIsSaved(true);
     };
+
+
+    const handleRepost = () => {
+      navigate(`/repost/${post.$id}`)
+    }
   
     const containerStyles = location.pathname.startsWith("/profile")
       ? "w-full"
@@ -94,6 +101,18 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
             height={20}
             className="cursor-pointer"
             onClick={(e) => handleSavePost(e)}
+          />
+        </div>
+
+
+        <div className="">
+          <img
+            src='/assets/icons/share.svg'
+            alt="share"
+            width={20}
+            height={20}
+            className="cursor-pointer"
+            onClick={(e) => handleRepost()}
           />
         </div>
       </div>

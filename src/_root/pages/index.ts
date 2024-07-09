@@ -6,5 +6,6 @@ export { default as UpdateProfile } from './UpdateProfile'
 export { default as CreatePosts }  from './CreatePosts'
 export { default as Posts } from './Posts'
 export { default as UpdatePosts } from './UpdatePosts'
-export { default as LikedPosts } from './LikedPosts'
+
 export { default as Saved } from './Saved'
+export { default as RePost } from './RePost'

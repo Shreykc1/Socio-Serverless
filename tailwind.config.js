@@ -44,6 +44,8 @@ module.exports = {
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
+        neue: ['Neue Haas Grotesk Display Pro', 'sans-serif'],
+        helv: ['Helvetica Neue', 'sans-serif']
 
       },
       keyframes: {

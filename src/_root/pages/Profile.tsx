@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { updateProfile } from "@/lib/appwrite/api";
+
 import { toast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,9 +18,8 @@ import { Input } from "@/components/ui/input";
 import { ProfileValidation } from "@/lib/validation";
 import FileUploader from "@/components/forms/FileUploader";
 import { useUpdateProfile } from "@/lib/react-query/queriesandmutations";
-import UpdateProfile from "./UpdateProfile";
 import { IUpdateProfile, IUser } from "@/types";
-import { useState } from "react";
+
 
 let U: IUser;
 let Values: IUpdateProfile;
@@ -150,8 +148,29 @@ const Profile = () => {
                   
                     <div className="flex flex-col gap-3">
                         <h3 className="h2-bold text-light-4">Bio</h3>
-                        <p className="base-regular text-light-2">{user.bio}</p>
+                        <p className="text-bold text-light-2">{user.bio}</p>
+
+                        <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                      <FormItem className="mt-7">
+                        <FormLabel className="shad-form_label">
+                          Edit bio
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="shad-input"
+                            placeholder="something about you"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                     </div>
+                    
 
                   }
 
