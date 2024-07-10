@@ -456,14 +456,14 @@ export async function rePost(post: IUpdatePost,user: IUser) {
 
   
   // ============================== DELETE POST
-  export async function deletePost(postId?: string, imageID?: string) {
-    if (!postId || !imageID) return;
+  export async function deletePost(postID?: string, imageID?: string) {
+    if (!postID || !imageID) return;
   
     try {
       const statusCode = await databases.deleteDocument(
         appwriteConfig.databaseId,
         appwriteConfig.postsCollectionId,
-        postId
+        postID
       );
   
       if (!statusCode) throw Error;
@@ -643,12 +643,12 @@ export async function getSavedPosts(userID: string) {
   }
   
   // ============================== GET USER BY ID
-  export async function getUserById(userId: string) {
+  export async function getUserById(userID: string) {
     try {
       const user = await databases.getDocument(
         appwriteConfig.databaseId,
         appwriteConfig.usersCollectionId,
-        userId
+        userID
       );
   
       if (!user) throw Error;
@@ -692,7 +692,8 @@ export async function getSavedPosts(userID: string) {
           name: user.name,
           bio: user.bio,
           imageURL: image.imageURL,
-          imageId: image.imageID,
+          imageID: image.imageID,
+          email: user.email
         }
       );
   

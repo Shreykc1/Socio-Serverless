@@ -1,10 +1,10 @@
-import { deleteSavedPost, getCurrentUser } from "@/lib/appwrite/api";
+
 import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from "@/lib/react-query/queriesandmutations"
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite"
 import React, { useState, useEffect } from "react";
-import { useLocation,Navigate, useNavigate } from "react-router-dom";
-import { record } from "zod";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 
 type PostStatsProps = {
@@ -24,7 +24,7 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
     const { mutate: savePost } = useSavePost();
     const { mutate: deleteSavePost } = useDeleteSavedPost();
   
-    const { data: currentUser } = useGetCurrentUser();
+    const { data: currentUser , isPending: isUserLoading} = useGetCurrentUser();
   
     const savedPostRecord = currentUser?.save.find(
       (record: Models.Document) => record.post.$id === post.$id
@@ -33,6 +33,12 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
     useEffect(() => {
       setIsSaved(!!savedPostRecord);
     }, [currentUser]);
+
+  //   useEffect(() => {
+  //     if (savedPostRecord) {
+  //         setIsSaved(!!savedPostRecord);
+  //     }
+  // }, [currentUser]);
   
     const handleLikePost = (
       e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -73,6 +79,10 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
     const containerStyles = location.pathname.startsWith("/profile")
       ? "w-full"
       : "";
+
+      const savedStyle = location.pathname.startsWith("/saved")
+      ? "hidden"
+      : "block"
   
     return (
       <div
@@ -93,7 +103,7 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
           <p className="small-medium lg:base-medium">{likes.length}</p>
         </div>
   
-        <div className="flex gap-2">
+        <div className={`flex gap-2 ${savedStyle}`}>
           <img
             src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
             alt="share"
@@ -105,14 +115,14 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
         </div>
 
 
-        <div className="">
+        <div className="flex gap-2">
           <img
             src='/assets/icons/share.svg'
             alt="share"
             width={20}
             height={20}
             className="cursor-pointer"
-            onClick={(e) => handleRepost()}
+            onClick={() => handleRepost()}
           />
         </div>
       </div>

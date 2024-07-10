@@ -11,6 +11,7 @@ export type INavLink = {
     imageID: string;
     imageURL: URL | string;
     file: File[];
+    email:string,
   };
   
   export type INewPost = {
@@ -48,6 +49,7 @@ export type INavLink = {
     username: string;
     email: string;
     imageURL: string;
+    imageID:string;
     bio: string;
   };
   

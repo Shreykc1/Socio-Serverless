@@ -22,10 +22,19 @@ export const SignupValidation = z.object({
 
 
 
+  // export const ProfileValidation = z.object({
+  //   file: z.custom<File[]>(),
+  //   bio: z.string().min(4,{ message:"bio too short"}).max(100, {message:"bio too long!"})
+  // });
+
+
   export const ProfileValidation = z.object({
-    file: z.custom<File[]>(),
-    bio: z.string().min(4,{ message:"bio too short"}).max(100, {message:"bio too long!"})
-  });
+        file: z.custom<File[]>(),
+        name: z.string().min(2,{message: "Too Short!"}),
+        username: z.string().min(4,{message: "Too Short!"}).max(12,{message:"Too Long!"}),
+        email: z.string().email({message:"Enter a valid email address!"}),
+        bio: z.string().min(4,{ message:"bio too short"}).max(100, {message:"bio too long!"})
+  })
 
 
 

@@ -5,8 +5,8 @@ import {
     useInfiniteQuery,
     QueryClient,
 } from '@tanstack/react-query'
-import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts } from '../appwrite/api'
-import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUser } from '@/types'
+import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts, updateUser, getUserById } from '../appwrite/api'
+import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 import { Models } from 'appwrite'
 
@@ -60,11 +60,11 @@ export const useGetRecentPosts = () => {
     })
 }
 
-export const useGetUserPosts = (userId?: string) => {
+export const useGetUserPosts = (userID?: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_POSTS, userId],
-    queryFn: () => getUserPosts(userId),
-    enabled: !!userId,
+    queryKey: [QUERY_KEYS.GET_USER_POSTS, userID],
+    queryFn: () => getUserPosts(userID),
+    enabled: !!userID,
   });
 };
 
@@ -263,25 +263,25 @@ export const useLikePost = () => {
     });
   };
   
-  // export const useGetUserById = (userId: string) => {
-  //   return useQuery({
-  //     queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
-  //     queryFn: () => getUserById(userId),
-  //     enabled: !!userId,
-  //   });
-  // };
+  export const useGetUserById = (userID: string) => {
+    return useQuery({
+      queryKey: [QUERY_KEYS.GET_USER_BY_ID, userID],
+      queryFn: () => getUserById(userID),
+      enabled: !!userID,
+    });
+  };
   
-//   export const useUpdateUser = () => {
-//     const queryClient = useQueryClient();
-//     return useMutation({
-//       mutationFn: (user: IUpdateUser) => updateUser(user),
-//       onSuccess: (data) => {
-//         queryClient.invalidateQueries({
-//           queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-//         });
-//         queryClient.invalidateQueries({
-//           queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
-//         });
-//       },
-//     });
-//   };
+  export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (user: IUpdateUser) => updateUser(user),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+        });
+      },
+    });
+  };

@@ -16,11 +16,12 @@ import CreatePosts from './_root/pages/CreatePosts'
 import UpdatePosts from './_root/pages/UpdatePosts'
 import Posts from './_root/pages/Posts'
 import Profile from './_root/pages/Profile'
-import UpdateProfile from './_root/pages/UpdateProfile'
+import EditProfile from './_root/pages/EditProfile'
 
 
 const App = () => {
   return (
+    
     <main className='flex h-screen'>
         <Routes>
           
@@ -41,7 +42,7 @@ const App = () => {
             <Route path='/posts/:id' element={<Posts />} />
             <Route path='/repost/:id' element={<RePost />} />
             <Route path='/profile/:id/*' element={<Profile />} />
-            <Route path='/update-profile/:id' element={<UpdateProfile />} />
+            <Route path='/edit-profile' element={<EditProfile />}/>
           </Route>
         </Routes>
 

@@ -29,7 +29,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ fieldChange, mediaURL }) =>
             try {
                 // Create a new Compressor instance
                 await new Compressor(file, {
-                    quality: 0.5, // Set the desired compression quality
+                    quality: 0.35, // Set the desired compression quality
                     success(blobResult) {
                         // Convert Blob to File
                         const fileResult = new File(

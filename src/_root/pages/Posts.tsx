@@ -30,8 +30,16 @@ const PostDetails = () => {
   );
 
   const handleDeletePost = () => {
-    deletePost({ postID: id, imageId: post?.imageId });
-    navigate(-1);
+    try {
+      console.log(id);
+      console.log(post?.imageID)
+      deletePost({ postID: id, imageID: post?.imageID });
+      navigate(-1);
+    } catch (error) {
+      return
+    }
+    
+   
   };
 
   return (
