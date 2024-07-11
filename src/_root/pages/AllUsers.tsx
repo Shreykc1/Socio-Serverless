@@ -7,7 +7,6 @@ const AllUsers = () => {
   const {
     data: users,
     isPending: isPostLoading,
-    isError: isErrorPosts,
   } = useGetUsers();
   return (
     <>

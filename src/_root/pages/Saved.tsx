@@ -21,7 +21,7 @@ const Saved = ({ showUser = true, showStats = true }: SavedProps) => {
           <Loader />
         </div>
       ) : (
-        <div className="p-14">
+        <div className="saved-container">
           {data && data.length > 0 ? (
             <ul className="grid-container">
               {data.map((post) =>

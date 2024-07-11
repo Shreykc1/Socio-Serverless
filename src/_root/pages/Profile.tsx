@@ -17,7 +17,7 @@ const Profile = () => {
     <div className="profile-container">
       
         <div className="profile-inner_container">
-          <div className="flex-center lg:h-40 lg:w-40 h-0 w-0 ">
+          <div className="flex-center lg:h-40 lg:w-40 md:h-20">
             <img
               src={
                 currentUser?.$id !== user.id
@@ -25,7 +25,7 @@ const Profile = () => {
                   : user.imageURL
               }
               alt="logo"
-              className="h-40 w-40 rounded-full hidden lg:block"
+              className="h-40 w-40 rounded-full"
             />
           </div>
 
@@ -36,14 +36,14 @@ const Profile = () => {
               </h3>
               {currentUser?.$id === user.id ? <EditButton /> : <FollowButton />}
             </div>
-            <p className="base-regular mt-3 text-light-3">
+            <p className="base-regular mt-2 text-light-3">
               @
               {currentUser?.$id !== user.id
                 ? currentUser?.username
                 : user.username}
             </p>
 
-            <div className="base-medium mt-10 text-light-2">
+            <div className="base-medium mt-10 mb-5 text-light-2">
               {currentUser?.$id !== user.id ? currentUser?.bio : user.bio}
             </div>
 
@@ -53,7 +53,7 @@ const Profile = () => {
          
         </div>
 
-        <div className="w-full ">
+        <div className="profile-inner_container">
           {!isPostLoading ? 
                 <GridPostsList posts={post?.documents} />
                 :

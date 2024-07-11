@@ -83,10 +83,14 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
       const savedStyle = location.pathname.startsWith("/saved")
       ? "hidden"
       : "block"
+
+      const spaceStyle = location.pathname.startsWith("/profile")
+      ? "justify-end"
+      : "justify-between"
   
     return (
       <div
-        className={`flex justify-between items-center z-20 ${containerStyles}`}>
+        className={`flex ${spaceStyle} items-center z-20 ${containerStyles}`}>
         <div className="flex gap-2 mr-5">
           <img
             src={`${
