@@ -1,4 +1,5 @@
 
+import { useUserContext } from "@/context/AuthContext";
 import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from "@/lib/react-query/queriesandmutations"
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite"
@@ -13,10 +14,11 @@ type PostStatsProps = {
 }
 
 const PostStats = ({ post, userID }: PostStatsProps) => {
+    const { user } = useUserContext();
     const location = useLocation();
     const navigate = useNavigate();
     const likesList = post.likes.map((user: Models.Document) => user.$id);
-  
+
     const [likes, setLikes] = useState<string[]>(likesList);
     const [isSaved, setIsSaved] = useState(false);
   
@@ -87,6 +89,11 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
       const spaceStyle = location.pathname.startsWith("/profile")
       ? "justify-end"
       : "justify-between"
+
+      const savesUser = post.creator.$id === user.id
+      ? "hidden"
+      : "block"
+
   
     return (
       <div
@@ -107,7 +114,7 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
           <p className="small-medium lg:base-medium">{likes.length}</p>
         </div>
   
-        <div className={`flex gap-2 ${savedStyle}`}>
+        <div className={`flex gap-2 ${savedStyle} ${savesUser}`}>
           <img
             src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
             alt="share"

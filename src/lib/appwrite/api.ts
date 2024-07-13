@@ -294,6 +294,22 @@ export async function getCurrentUser() {
       console.log(error);
     }
   }
+
+  export async function searchUsers(searchTerm: string) {
+    try {
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.usersCollectionId,
+        [Query.search("username", searchTerm)]
+      );
+  
+      if (!posts) throw Error;
+  
+      return posts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
     const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];

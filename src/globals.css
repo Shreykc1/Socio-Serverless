@@ -230,6 +230,15 @@
     @apply rounded-lg base-medium hover:bg-primary-500 transition;
   }
 
+  /* Right sidebar  */
+  .top_link {
+    @apply flex rounded-lg border border-dark-4 overflow-hidden cursor-pointer w-full h-full;
+  }
+
+  .top_user {
+    @apply absolute bottom-0 p-3 pl-4 flex-between w-full bg-gradient-to-t from-dark-3 to-transparent rounded-b-lg gap-2;
+  }
+
   /* Post Card */
   .post-card {
     @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
