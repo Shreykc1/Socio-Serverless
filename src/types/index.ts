@@ -42,6 +42,14 @@ export type INavLink = {
     tags?: string;
     
   };
+
+  export type IMessage = {
+    id?: string;
+    body: string;
+    senderID: string;
+    receiverID: string;
+    createdAt?: string;
+  }
   
   export type IUser = {
     id: string;

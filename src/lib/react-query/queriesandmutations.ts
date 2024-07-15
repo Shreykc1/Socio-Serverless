@@ -5,7 +5,7 @@ import {
     useInfiniteQuery,
     QueryClient,
 } from '@tanstack/react-query'
-import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts, updateUser, getUserById, searchUsers } from '../appwrite/api'
+import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts, updateUser, getUserById, searchUsers, sendMessage, fetchMessages } from '../appwrite/api'
 import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 import { Models } from 'appwrite'
@@ -294,3 +294,35 @@ export const useLikePost = () => {
       },
     });
   };
+
+
+
+  // CHATS ===============
+
+
+  export const useSendMessage = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: async (message: { body: string; senderID: string; recieverID: string }) => {
+        return sendMessage(message);
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.SEND_MESSAGE, data.senderId,data.recieverId]
+        });
+      }
+    });
+};
+
+
+export const useFetchMessages = (currentUser:string, selectedUser:string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.FETCH_MESSAGE, currentUser,selectedUser],
+    queryFn: () => fetchMessages(currentUser, selectedUser),
+    enabled: !!selectedUser,
+  });
+};
+
+
+ 

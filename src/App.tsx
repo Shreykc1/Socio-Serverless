@@ -17,6 +17,8 @@ import UpdatePosts from './_root/pages/UpdatePosts'
 import Posts from './_root/pages/Posts'
 import Profile from './_root/pages/Profile'
 import EditProfile from './_root/pages/EditProfile'
+import Chats from './_root/pages/Chats'
+import Messages from './components/Messages'
 
 
 const App = () => {
@@ -43,6 +45,8 @@ const App = () => {
             <Route path='/repost/:id' element={<RePost />} />
             <Route path='/profile/:id/*' element={<Profile />} />
             <Route path='/edit-profile' element={<EditProfile />}/>
+            <Route path='/chats' element={<Chats />}/>
+            <Route path='/messages/:id/*' element={<Messages/>}/>
           </Route>
         </Routes>
 

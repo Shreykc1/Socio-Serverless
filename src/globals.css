@@ -136,6 +136,30 @@
     @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
   }
 
+
+  /* Chats */
+  .chats-container {
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-0 md:px-0 lg:p-14 custom-scrollbar;
+  }
+
+  .chats_topbar{
+    @apply flex bg-dark-3 h-24 justify-start items-center px-5 gap-5 lg:gap-10 md:gap-10;
+  }
+
+  /* Messages */
+  .message-container {
+    @apply flex rounded-lg border border-dark-4 overflow-hidden cursor-pointer w-full h-full;
+  }
+
+  .message-received{
+    @apply bg-dark-4 p-3 w-40 rounded-lg base-medium mb-4;
+  }
+
+  .message-sent{
+    @apply bg-primary-500 p-3 w-40 rounded-lg base-medium mb-4;
+  }
+
+
   /* Home */
   .home-container {
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;

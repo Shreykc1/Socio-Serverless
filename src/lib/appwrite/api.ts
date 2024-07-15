@@ -300,7 +300,7 @@ export async function getCurrentUser() {
       const posts = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.usersCollectionId,
-        [Query.search("username", searchTerm)]
+        [Query.search("name", searchTerm)]
       );
   
       if (!posts) throw Error;
@@ -733,3 +733,38 @@ export async function getSavedPosts(userID: string) {
       console.log(error);
     }
   }
+
+
+
+  // ============== CHATS =========================================
+
+  export async function fetchMessages(currentUser: string, selectedUser: string){
+    try {
+      const messages = await databases.listDocuments(
+        appwriteConfig.databaseId, 
+        appwriteConfig.messageCollectionId,
+        [
+          Query.or([
+            Query.and([Query.equal('senderID', currentUser), Query.equal('recieverID', selectedUser)]),
+            Query.and([Query.equal('senderID', selectedUser), Query.equal('recieverID', currentUser)])
+          ]),
+          Query.orderDesc('$createdAt')
+        ]
+    );
+      if(!messages) throw Error;
+      return messages;
+
+    } catch (error) {
+      console.log("Fetch msg: " ,error)
+    }
+  };
+  
+  export async function sendMessage(message: { body: string; senderID: string; recieverID: string }) {
+    const response = await databases.createDocument(
+      appwriteConfig.databaseId, 
+      appwriteConfig.messageCollectionId,
+        ID.unique(),
+        message);
+    return response;
+  };
+  

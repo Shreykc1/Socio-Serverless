@@ -1,22 +1,29 @@
 import { useState } from "react";
 import { Input } from "../ui/input";
-import { useGetUsers, useSearchUsers } from "@/lib/react-query/queriesandmutations";
+import {
+  useGetUsers,
+  useSearchUsers,
+} from "@/lib/react-query/queriesandmutations";
 import { Link } from "react-router-dom";
 import useDebounce from "@/hooks/useDebouncer";
+import SearchUsers from "./SearchUsers";
+import GridPostsList from "./GridPostsList";
 
 const RightSidebar = () => {
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 500);
-  const { data : searchedUsers, isFetching: isSearchFetching } = useSearchUsers(debouncedValue);
+  const { data: searchedUsers, isFetching: isSearchFetching } =
+    useSearchUsers(debouncedValue);
   const {
     data: creators,
     isLoading: isUserLoading,
     isError: isErrorCreators,
   } = useGetUsers();
 
-  
   const showSearchResults = searchValue !== "";
-  const showPosts = !showSearchResults && creators?.documents.every((item) => item?.documents.length === 0);
+  const showUsers =
+    !showSearchResults &&
+    creators?.documents.every((item) => item?.length === 0);
   return (
     <section className="w-[465px] hidden md:block lg:block">
       <div className="flex flex-col mx-7">
@@ -37,17 +44,15 @@ const RightSidebar = () => {
 
         <div>
           <ul className="flex flex-col gap-8">
-            {creators?.documents.map((user) => {
+            {creators?.documents.map((user, index) => {
               return (
-                <li
-                  key={user.$id}
-                  className="h-48 overflow-hidden relative"
-                >
-                  <Link
-                    to={`/profile/${user.$id}`}
-                    className="top_link"
-                  >
-                    <img src={user.posts[0].imageURL} alt="" className="h-full w-full object-cover" />
+                <li key={user.$id} className="h-48 overflow-hidden relative">
+                  <Link to={`/profile/${user.$id}`} className="top_link">
+                    <img
+                      src={user.posts[0].imageURL}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
                   </Link>
                   <div className="top_user">
                     <div className="flex items-center justify-start gap-2 flex-1">
@@ -61,21 +66,44 @@ const RightSidebar = () => {
                     </div>
                   </div>
 
-                  {/* <div className="flex flex-wrap gap-9 w-full max-w-5xl">
-        {
-          showSearchResults ? (
-            <SearchResults isSearchFetching={isSearchFetching} searchedPosts={searchedPosts} />
-          ) : showPosts ?
-          (
-              <p className="text-light-4 mt-10 text-center w-full">End of Posts</p>
-          ) : posts.pages.map((item , index) => {
-            return (
-              <GridPostsList key={`page-${index}`} posts={item.documents} />
-            );
-          })
-        }
-      </div> */}
+                  <div className="flex flex-wrap gap-9 w-full max-w-5xl">
+                    {showSearchResults ? (
+                      <SearchUsers
+                        isSearchFetching={isSearchFetching}
+                        searchedUsers={searchedUsers}
+                      />
+                    ) : showUsers ? (
+                      <p className="text-light-4 mt-10 text-center w-full">
+                        End of Posts
+                      </p>
+                    ) : (
 
+                         <ul className="flex flex-col gap-8">
+                            <li key={user.$id} className="h-48 overflow-hidden relative">
+                  <Link to={`/profile/${user.$id}`} className="top_link">
+                    <img
+                      src={user.posts[0].imageURL}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </Link>
+                  <div className="top_user">
+                    <div className="flex items-center justify-start gap-2 flex-1">
+                      <img
+                        src={user.imageURL}
+                        className=" rounded-full h-8"
+                        alt=""
+                      />
+
+                      <p className="small-regular h-6">{user.username}</p>
+                    </div>
+                  </div>
+                  </li>
+                         </ul>
+                        )
+                      
+                    }
+                  </div>
                 </li>
               );
             })}
