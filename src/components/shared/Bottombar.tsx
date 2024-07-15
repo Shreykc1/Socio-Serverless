@@ -14,15 +14,15 @@ const Bottombar = () => {
               <img
                 src={link.imgURL}
                 alt={link.label}
-                width={20}
-                height={20}
+                width={25}
+                height={25}
                 className={` ${
                   isActive && "invert-white"
                 }`}
               />
-              <p className="tiny-medium text-light-2">
+              {/* <p className="tiny-medium text-light-2">
                 {link.label}
-              </p>
+              </p> */}
             </Link>
          
         );
