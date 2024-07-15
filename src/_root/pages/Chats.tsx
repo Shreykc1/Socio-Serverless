@@ -1,4 +1,4 @@
-import Messages from "@/components/Messages";
+
 import Loader from "@/components/shared/Loader";
 
 import { useUserContext } from "@/context/AuthContext";
@@ -23,12 +23,12 @@ const Chats = () => {
     <div className="flex w-full">
       {!isPostLoading ? (
         <ul className="chats-container">
-          <li className="h-screen">
+          <li className=" mx-10">
             {users?.documents
               .filter((user: Models.Document) => user.$id !== currentUser.id)
               .map((user: Models.Document) => (
                 <Link to={`/messages/${user.$id}`} key={user.$id}>
-                  <div key={user.$id} className="bg-dark-3 m-0 rounded-lg w-[500px] h-20 flex flex-row gap-4 p-3">
+                  <div key={user.$id} className="bg-dark-3 rounded-lg w-[400px] sm:w-[600px] max-xs:w-[350px] h-20 flex flex-row gap-4 p-3">
                     <img
                       src={user.imageURL}
                       className="rounded-full w-14 h-14"

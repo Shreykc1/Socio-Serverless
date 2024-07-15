@@ -309,7 +309,7 @@ export const useLikePost = () => {
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.SEND_MESSAGE, data.senderId,data.recieverId]
+          queryKey: [QUERY_KEYS.SEND_MESSAGE, data.senderID,data.recieverID]
         });
       }
     });

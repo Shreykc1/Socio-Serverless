@@ -5,13 +5,15 @@ import {
 } from "@/lib/react-query/queriesandmutations";
 
 import { useParams } from "react-router-dom";
-import Loader from "./shared/Loader";
-import { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { useUserContext } from "@/context/AuthContext";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { IMessage } from "@/types";
-import socket from "@/lib/server/socket";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Loader from "@/components/shared/Loader";
+
+
+
 
 const Messages = () => {
   const { id: selectedUser } = useParams();
@@ -19,7 +21,7 @@ const Messages = () => {
   const { data: reciever, isPending } = useGetUserById(selectedUser || "");
   const [newMessage, setNewMessage] = useState("");
   const currentUser = !isLoading ? user.id : "";
-  const [messages, setMessages] = useState<IMessage[]>([]);
+
   const { data: fetched, isPending: isFetching } = useFetchMessages(
     currentUser,
     selectedUser || ""
@@ -28,35 +30,15 @@ const Messages = () => {
   console.log("current", currentUser);
   console.log("selected", selectedUser);
   const handleSendMessage = () => {
-    const message = {
-      body: newMessage,
-      senderID: currentUser,
-      receiverID: selectedUser || "",
-    };
-    sendMessage(message);
-    socket.emit('sendMessage', message);
-    setNewMessage("");
-  };
-
-  console.log("f  ", fetched);
-
-
-
-  useEffect(() => {
-    if (fetched) {
-      setMessages(fetched.documents);
+    if (newMessage.trim()) {
+      sendMessage({
+        body: newMessage,
+        senderID: currentUser,
+        recieverID: selectedUser || "",
+      });
+      setNewMessage('');
     }
-  }, [fetched]);
-
-  useEffect(() => {
-    socket.on('message', (message: IMessage) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    return () => {
-      socket.off('message');
-    };
-  }, []);
+  };
 
 
 
@@ -76,9 +58,9 @@ const Messages = () => {
             </h3>
           </div>
 
-          <div className="h-full p-14 flex flex-col justify-between">
+          <div className="h-full p-5 xs:p-14 flex flex-col justify-between overflow-y-auto custom-scrollbar">
             <div className="">
-              {messages
+              {fetched?.documents
                 .slice()
                 .reverse()
                 .map((message: any) => (
@@ -101,7 +83,7 @@ const Messages = () => {
                 ))}
             </div>
 
-            <div className="flex gap-4 bottom-4">
+            <div className="flex gap-4 bottom-0 sticky px-10 py-5 backdrop-blur-xl rounded-lg">
               <Input
                 type="text"
                 className="shad-input"

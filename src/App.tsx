@@ -18,7 +18,8 @@ import Posts from './_root/pages/Posts'
 import Profile from './_root/pages/Profile'
 import EditProfile from './_root/pages/EditProfile'
 import Chats from './_root/pages/Chats'
-import Messages from './components/Messages'
+import Messages from './_root/pages/Messages'
+
 
 
 const App = () => {

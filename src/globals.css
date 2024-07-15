@@ -143,7 +143,7 @@
   }
 
   .chats_topbar{
-    @apply flex bg-dark-3 h-24 justify-start items-center px-5 gap-5 lg:gap-10 md:gap-10;
+    @apply flex z-50 backdrop-blur-xl bg-dark-2 h-24 justify-start items-center px-5 gap-5 lg:gap-10 md:gap-10;
   }
 
   /* Messages */
@@ -152,11 +152,11 @@
   }
 
   .message-received{
-    @apply bg-dark-4 p-3 w-40 rounded-lg base-medium mb-4;
+    @apply bg-dark-4 p-2 px-4 rounded-lg base-medium mb-4;
   }
 
   .message-sent{
-    @apply bg-primary-500 p-3 w-40 rounded-lg base-medium mb-4;
+    @apply bg-primary-500 p-2 px-4 rounded-lg base-medium mb-4;
   }
 
 
@@ -312,6 +312,10 @@
 
   .shad-button_dark_4 {
     @apply h-10 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
+  }
+
+  .shad-button_light_3 {
+    @apply h-10 bg-dark-4 px-5 text-light-3 font-semibold flex gap-2 !important;
   }
 
   .shad-button_ghost {

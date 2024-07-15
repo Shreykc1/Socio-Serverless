@@ -1,5 +1,4 @@
 import EditButton from "@/components/shared/EditButton";
-import FollowButton from "@/components/shared/FollowButton";
 import GridPostsList from "@/components/shared/GridPostsList";
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
@@ -34,7 +33,7 @@ const Profile = () => {
               <h3 className="h2-bold">
                 {currentUser?.$id !== user.id ? currentUser?.name : user.name}
               </h3>
-              {currentUser?.$id === user.id ? <EditButton /> : <FollowButton />}
+              {currentUser?.$id === user.id ? <EditButton /> : ""}
             </div>
             <p className="base-regular mt-2 text-light-3">
               @

@@ -7,7 +7,7 @@ const EditButton = () => {
   return (
     <div>
   
-  <Button className="shad-button_dark_4 tracking-tight" onClick={() => navigate('/edit-profile')}>
+  <Button className="shad-button_light_3 tracking-tight" onClick={() => navigate('/edit-profile')}>
       Edit Profile
     </Button>
       
