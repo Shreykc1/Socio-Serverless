@@ -5,7 +5,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { useGetUsers } from "@/lib/react-query/queriesandmutations";
 import { Models } from "appwrite";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const Chats = () => {
