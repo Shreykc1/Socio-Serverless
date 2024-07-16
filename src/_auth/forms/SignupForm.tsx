@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesandmutations";
-import { Toast } from "@radix-ui/react-toast";
+
 import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {

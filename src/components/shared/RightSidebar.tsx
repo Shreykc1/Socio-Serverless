@@ -44,69 +44,66 @@ const RightSidebar = () => {
 
         <div>
           <ul className="flex flex-col gap-8">
-            {creators?.documents.map((user, index) => {
-              return (
-                <li key={user.$id} className="h-48 overflow-hidden relative">
-                  <Link to={`/profile/${user.$id}`} className="top_link">
-                    <img
-                      src={user.posts[0].imageURL}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </Link>
-                  <div className="top_user">
-                    <div className="flex items-center justify-start gap-2 flex-1">
-                      <img
-                        src={user.imageURL}
-                        className=" rounded-full h-8"
-                        alt=""
-                      />
+          {creators?.documents.filter(user => user.posts[0]?.imageURL).map((user, index) => {
+  return (
+    <li key={user.$id} className="h-48 overflow-hidden relative">
+      <Link to={`/profile/${user.$id}`} className="top_link">
+        <img
+          src={user.posts[0].imageURL}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      </Link>
+      <div className="top_user">
+        <div className="flex items-center justify-start gap-2 flex-1">
+          <img
+            src={user.imageURL}
+            className="rounded-full h-8"
+            alt=""
+          />
 
-                      <p className="small-regular h-6">{user.username}</p>
-                    </div>
-                  </div>
+          <p className="small-regular h-6">{user.username}</p>
+        </div>
+      </div>
 
-                  <div className="flex flex-wrap gap-9 w-full max-w-5xl">
-                    {showSearchResults ? (
-                      <SearchUsers
-                        isSearchFetching={isSearchFetching}
-                        searchedUsers={searchedUsers}
-                      />
-                    ) : showUsers ? (
-                      <p className="text-light-4 mt-10 text-center w-full">
-                        End of Posts
-                      </p>
-                    ) : (
+      <div className="flex flex-wrap gap-9 w-full max-w-5xl">
+        {showSearchResults ? (
+          <SearchUsers
+            isSearchFetching={isSearchFetching}
+            searchedUsers={searchedUsers}
+          />
+        ) : showUsers ? (
+          <p className="text-light-4 mt-10 text-center w-full">
+            End of Posts
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-8">
+            <li key={user.$id} className="h-48 overflow-hidden relative">
+              <Link to={`/profile/${user.$id}`} className="top_link">
+                <img
+                  src={user.posts[0].imageURL}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              </Link>
+              <div className="top_user">
+                <div className="flex items-center justify-start gap-2 flex-1">
+                  <img
+                    src={user.imageURL}
+                    className="rounded-full h-8"
+                    alt=""
+                  />
 
-                         <ul className="flex flex-col gap-8">
-                            <li key={user.$id} className="h-48 overflow-hidden relative">
-                  <Link to={`/profile/${user.$id}`} className="top_link">
-                    <img
-                      src={user.posts[0].imageURL}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </Link>
-                  <div className="top_user">
-                    <div className="flex items-center justify-start gap-2 flex-1">
-                      <img
-                        src={user.imageURL}
-                        className=" rounded-full h-8"
-                        alt=""
-                      />
-
-                      <p className="small-regular h-6">{user.username}</p>
-                    </div>
-                  </div>
-                  </li>
-                         </ul>
-                        )
-                      
-                    }
-                  </div>
-                </li>
-              );
-            })}
+                  <p className="small-regular h-6">{user.username}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        )}
+      </div>
+    </li>
+  );
+})}
           </ul>
         </div>
       </div>
