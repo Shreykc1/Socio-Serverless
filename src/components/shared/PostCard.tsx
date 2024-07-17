@@ -11,7 +11,8 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
   if (!post.creator) return;
-
+  const bluetick = post.creator.isVerified ? "/assets/icons/verified.svg" : " "
+  const tickStyle = post.creator.isVerified ? "block" : "hidden"
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -25,9 +26,13 @@ const PostCard = ({ post }: PostCardProps) => {
           </Link>
 
           <div className="flex flex-col">
+            <div className="flex gap-2">
             <p className="base-medium lg:body-bold text-light-1">
               {post.creator.name}
             </p>
+            <img src={bluetick} 
+          alt="logo" className={`${tickStyle} w-5 `} />
+            </div>
 
             <div className="flex-center gap-2 text-light-3">
               <p className="subtle-semibold lg:small-regular">

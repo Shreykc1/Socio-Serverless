@@ -11,6 +11,9 @@ const LeftSidebar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccount();
   const { user } = useUserContext();
   const { pathname } = useLocation();
+  const bluetick = user.isVerified ? "/assets/icons/verified.svg" : " "
+  const tickStyle = user.isVerified ? "block" : "hidden"
+  
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
@@ -23,17 +26,23 @@ const LeftSidebar = () => {
           />
         </Link>
 
-        <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
+        <Link to={`/profile/${user.id}`} className="flex gap-2 items-center">
           <img
             src={user.imageURL || "/assets/images/profile.png"}
             alt="logo"
             className="rounded-full h-14 w-14"
           />
 
+
           <div className="flex flex-col">
             <p className="body-bold">{user.name}</p>
             <p className="small-regular text-light-3">@{user.username}</p>
           </div>
+
+        
+        <img src={bluetick} 
+          alt="logo" className={`${tickStyle} w-5 mb-[18px] `} />
+       
         </Link>
 
         <ul className="flex flex-col gap-6">

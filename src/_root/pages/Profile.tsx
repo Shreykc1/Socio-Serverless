@@ -29,10 +29,15 @@ const Profile = () => {
           </div>
 
           <div className="mt-5">
-            <div className="flex flex-row gap-20">
+            <div className="flex flex-row gap-5">
               <h3 className="h2-bold">
                 {currentUser?.$id !== user.id ? currentUser?.name : user.name}
               </h3>
+              <img
+              src={currentUser?.isVerified ? "/assets/icons/verified.svg" : ""}
+              alt="logo"
+              className={`${currentUser?.isVerified ? "block" : "hidden"} w-7 mb-0 `}
+            />
               {currentUser?.$id === user.id ? <EditButton /> : ""}
             </div>
             <p className="base-regular mt-2 text-light-3">

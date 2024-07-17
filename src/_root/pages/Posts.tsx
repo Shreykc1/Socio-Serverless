@@ -1,7 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-
-
 import {
   useGetPostById,
   useGetUserPosts,
@@ -19,27 +17,22 @@ const PostDetails = () => {
   const { id } = useParams();
   const { user } = useUserContext();
 
-  const { data: post, isLoading } = useGetPostById(id);
+  const { data: post, isLoading } = useGetPostById(id || "");
   const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
     post?.creator.$id
   );
   const { mutate: deletePost } = useDeletePost();
-
   const relatedPosts = userPosts?.documents.filter(
     (userPost) => userPost.$id !== id
   );
 
   const handleDeletePost = () => {
     try {
-      console.log(id);
-      console.log(post?.imageID)
       deletePost({ postID: id, imageID: post?.imageID });
       navigate(-1);
     } catch (error) {
-      return
+      return;
     }
-    
-   
   };
 
   return (
@@ -48,7 +41,8 @@ const PostDetails = () => {
         <Button
           onClick={() => navigate(-1)}
           variant="ghost"
-          className="shad-button_ghost">
+          className="shad-button_ghost"
+        >
           <img
             src={"/assets/icons/back.svg"}
             alt="back"
@@ -73,7 +67,8 @@ const PostDetails = () => {
             <div className="flex-between w-full">
               <Link
                 to={`/profile/${post?.creator.$id}`}
-                className="flex items-center gap-3">
+                className="flex items-center gap-3"
+              >
                 <img
                   src={
                     post?.creator.imageURL ||
@@ -83,9 +78,17 @@ const PostDetails = () => {
                   className="w-8 h-8 lg:w-12 lg:h-12 rounded-full"
                 />
                 <div className="flex gap-1 flex-col">
+                  <div className="flex gap-2">
                   <p className="base-medium lg:body-bold text-light-1">
                     {post?.creator.name}
                   </p>
+                  <img
+              src={post.creator.isVerified ? "/assets/icons/verified.svg" : ""}
+              alt="logo"
+              className={`${post.creator.isVerified ? "block" : "hidden"} w-5 mb-0 `}
+            />
+                  </div>
+
                   <div className="flex-center gap-2 text-light-3">
                     <p className="subtle-semibold lg:small-regular ">
                       {multiFormatDateString(post?.$createdAt)}
@@ -101,7 +104,8 @@ const PostDetails = () => {
               <div className="flex-center gap-4">
                 <Link
                   to={`/update-post/${post?.$id}`}
-                  className={`${user.id !== post?.creator.$id && "hidden"}`}>
+                  className={`${user.id !== post?.creator.$id && "hidden"}`}
+                >
                   <img
                     src={"/assets/icons/edit.svg"}
                     alt="edit"
@@ -115,7 +119,8 @@ const PostDetails = () => {
                   variant="ghost"
                   className={`ost_details-delete_btn ${
                     user.id !== post?.creator.$id && "hidden"
-                  }`}>
+                  }`}
+                >
                   <img
                     src={"/assets/icons/delete.svg"}
                     alt="delete"
@@ -134,7 +139,8 @@ const PostDetails = () => {
                 {post?.tags.map((tag: string, index: string) => (
                   <li
                     key={`${tag}${index}`}
-                    className="text-light-3 small-regular">
+                    className="text-light-3 small-regular"
+                  >
                     #{tag}
                   </li>
                 ))}

@@ -9,6 +9,7 @@ import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccou
 import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 import { Models } from 'appwrite'
+import { Verified } from 'lucide-react'
 
 
 export const useCreateUserAccount = () =>{
@@ -265,10 +266,10 @@ export const useLikePost = () => {
     });
   };
   
-  export const useGetUsers = (limit?: number) => {
+  export const useGetUsers = (limit?: number,verified?: boolean) => {
     return useQuery({
       queryKey: [QUERY_KEYS.GET_USERS],
-      queryFn: () => getUsers(limit),
+      queryFn: () => getUsers(limit,verified),
     });
   };
   

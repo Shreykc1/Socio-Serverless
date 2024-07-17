@@ -1,17 +1,5 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "has": ["api"],
-        "headers": {
-          "access-control-allow-origin": "*"
-        },
-        "destination": "/api/$1"
-      },
-      {
-        "source": "/(.*)",
-        "destination": "/index.html"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    { "source": "/(.*)","destination": "/" }
+  ]
+}

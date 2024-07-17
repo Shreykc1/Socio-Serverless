@@ -1,6 +1,7 @@
 import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from "@/types";
 import { ID, Query } from 'appwrite';
 import { account, appwriteConfig, avatars, databases,storage } from "./config";
+import { Verified } from "lucide-react";
 
 
 // Function to fetch the current user's ID
@@ -615,7 +616,7 @@ export async function getSavedPosts(userID: string) {
       const posts = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.postsCollectionId,
-        [Query.orderDesc("$createdAt"), Query.limit(20)]
+        [Query.orderDesc("$createdAt"), Query.limit(10)]
       );
   
       if (!posts) throw Error;
@@ -636,11 +637,14 @@ export async function getSavedPosts(userID: string) {
   // ============================================================
   
   // ============================== GET USERS
-  export async function getUsers(limit?: number) {
-    const queries: any[] = [Query.orderDesc("$createdAt")];
+  export async function getUsers(limit?: number,verified?: boolean) {
+    const queries: any[] = [];
   
     if (limit) {
       queries.push(Query.limit(limit));
+    }
+    if (verified){
+      queries.push(Query.orderDesc("isVerified"))
     }
   
     try {
@@ -657,6 +661,14 @@ export async function getSavedPosts(userID: string) {
       console.log(error);
     }
   }
+
+
+  // ================================ GET Verified USERS 
+
+  
+
+
+
   
   // ============================== GET USER BY ID
   export async function getUserById(userID: string) {

@@ -9,7 +9,8 @@ export const INITIAL_USER = {
     username: '',
     email:'',
     imageURL:'',
-    bio:''
+    bio:'',
+    isVerified:false,
 };
 
 const INITIAL_STATE = {
@@ -42,7 +43,8 @@ const AuthProvider = ({ children }: {children: React.ReactNode}) => {
                     username: currentAccount.username,
                     email: currentAccount.email,
                     imageURL: currentAccount.imageURL,
-                    bio: currentAccount.bio
+                    bio: currentAccount.bio,
+                    isVerified:currentAccount.isVerified
                 })
 
                 // if user mila then setAuth to true 

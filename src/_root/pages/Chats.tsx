@@ -1,4 +1,3 @@
-
 import Loader from "@/components/shared/Loader";
 
 import { useUserContext } from "@/context/AuthContext";
@@ -7,17 +6,10 @@ import { Models } from "appwrite";
 
 import { Link } from "react-router-dom";
 
-
 const Chats = () => {
-  const {
-    data: users,
-    isPending: isPostLoading,
-  } = useGetUsers();
+  const { data: users, isPending: isPostLoading } = useGetUsers();
 
   const { user: currentUser } = useUserContext();
- 
-
-
 
   return (
     <div className="flex w-full">
@@ -28,15 +20,31 @@ const Chats = () => {
               .filter((user: Models.Document) => user.$id !== currentUser.id)
               .map((user: Models.Document) => (
                 <Link to={`/messages/${user.$id}`} key={user.$id}>
-                  <div key={user.$id} className="bg-dark-3 rounded-lg w-[400px] sm:w-[600px] max-xs:w-[350px] h-20 flex flex-row gap-4 p-3">
+                  <div
+                    key={user.$id}
+                    className="bg-dark-3 rounded-lg w-[400px] sm:w-[600px] max-xs:w-[350px] h-20 flex flex-row gap-4 p-3"
+                  >
                     <img
                       src={user.imageURL}
                       className="rounded-full w-14 h-14"
                       alt="logo"
                     />
                     <div className="flex flex-col">
-                      <p className="h3-bold">{user.name}</p>
-                      <p className="small-regular text-light-3">@{user.username}</p>
+                      <div className="flex gap-2">
+                        <p className="h3-bold">{user.name}</p>
+                        <img
+                          src={
+                            user.isVerified ? "/assets/icons/verified.svg" : ""
+                          }
+                          alt="logo"
+                          className={`${
+                            user.isVerified ? "block" : "hidden"
+                          } w-5 mb-0 `}
+                        />
+                      </div>
+                      <p className="small-regular text-light-3">
+                        @{user.username}
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -48,7 +56,6 @@ const Chats = () => {
           <Loader />
         </div>
       )}
-
     </div>
   );
 };

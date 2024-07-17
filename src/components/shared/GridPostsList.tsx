@@ -32,6 +32,11 @@ const GridPostsList = ({posts, showUser = true, showStats = true}: GridProps) =>
               <div className='flex items-center justify-start gap-2 flex-1'>
                   <img src={post.creator.imageURL} className='h-8 w-8 rounded-full' alt="" />
                   <p className={`${lineClamp}`}>{post.creator.name}</p>
+                  <img
+              src={post.creator.isVerified ? "/assets/icons/verified.svg" : ""}
+              alt="logo"
+              className={`${post.creator.isVerified ? "block" : "hidden"} w-5 mb-0 `}
+            />
               </div>
             )
           }

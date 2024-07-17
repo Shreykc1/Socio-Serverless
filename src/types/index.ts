@@ -59,6 +59,7 @@ export type INavLink = {
     imageURL: string;
     imageID?:string;
     bio: string;
+    isVerified?: boolean;
   };
   
   export type INewUser = {
