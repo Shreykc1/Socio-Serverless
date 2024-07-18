@@ -5,7 +5,7 @@ import {
     useInfiniteQuery,
     QueryClient,
 } from '@tanstack/react-query'
-import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts, updateUser, getUserById, searchUsers, sendMessage, fetchMessages } from '../appwrite/api'
+import { createUserAccount, deleteAllActiveSessions, signInAccount, signOutAccount, createPost, getRecentPosts, likePost, savePost, deleteSavedPost, getCurrentUser, getPostById, updatePost, deletePost, searchPosts, getInfinitePosts, getSavedPosts, updateProfile, getUsers, rePost, getUserPosts, updateUser, getUserById, searchUsers, sendMessage, fetchMessages, reportPost } from '../appwrite/api'
 import { INewPost, INewUser, IRePost, IUpdatePost, IUpdateProfile, IUpdateUser, IUser } from '@/types'
 import { QUERY_KEYS } from './queryKeys'
 import { Models } from 'appwrite'
@@ -324,6 +324,20 @@ export const useFetchMessages = (currentUser:string, selectedUser:string) => {
     enabled: !!selectedUser,
   });
 };
+
+
+export const useReport = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ choice,userID,postID } : { choice:string,userID:string,postID: string }) => reportPost(choice,userID,postID),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.SEND_REPORT,]
+      })
+    }
+  })
+}
 
 
  

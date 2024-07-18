@@ -22,5 +22,8 @@ export enum QUERY_KEYS {
 
     // CHATS
     SEND_MESSAGE = "getSendMessage",
-    FETCH_MESSAGE = "getFetchMessage"
+    FETCH_MESSAGE = "getFetchMessage",
+
+    //REPORTS
+    SEND_REPORT = "getSendReport"
   }

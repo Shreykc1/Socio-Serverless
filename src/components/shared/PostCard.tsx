@@ -3,6 +3,9 @@ import { formatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import PostStats from "./PostStats";
+import DropdownMenuu from "./Dropdown";
+
+import { useState } from "react";
 
 type PostCardProps = {
   post: Models.Document;
@@ -11,8 +14,18 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
   if (!post.creator) return;
-  const bluetick = post.creator.isVerified ? "/assets/icons/verified.svg" : " "
-  const tickStyle = post.creator.isVerified ? "block" : "hidden"
+  const bluetick = post.creator.isVerified ? "/assets/icons/verified.svg" : " ";
+  const tickStyle = post.creator.isVerified ? "block" : "hidden";
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
+  const handleReportClick = () => {
+    setIsReportOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsReportOpen(false);
+  };
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -27,13 +40,14 @@ const PostCard = ({ post }: PostCardProps) => {
 
           <div className="flex flex-col">
             <div className="flex gap-2">
-            <p className="base-medium lg:body-bold text-light-1">
-              {post.creator.name}
-            </p>
-            <img src={bluetick} 
-          alt="logo" className={`${tickStyle} w-5 `} />
+              <p className="base-medium lg:body-bold text-light-1">
+                {post.creator.name}
+              </p>
+              <img src={bluetick} alt="logo" className={`${tickStyle} w-5 `} />
             </div>
+           
 
+             
             <div className="flex-center gap-2 text-light-3">
               <p className="subtle-semibold lg:small-regular">
                 {formatDateString(post.$createdAt)}
@@ -45,7 +59,9 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
           </div>
         </div>
-
+        <div className="ml-32">
+                <DropdownMenuu onReportClick={handleReportClick} userID={user.id} postID={post.$id}/>
+          </div>
         <Link
           to={`/update-post/${post.$id}`}
           className={`${user.id !== post.creator.$id && "hidden"}`}
@@ -67,10 +83,10 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
 
         <img
-                src={post.imageURL || "/assets/icons/profile.png"}
-                className="post-card_img"
-                alt="post"
-                />
+          src={post.imageURL || "/assets/icons/profile.png"}
+          className="post-card_img"
+          alt="post"
+        />
       </Link>
 
       <PostStats post={post} userID={user.id} />

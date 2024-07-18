@@ -6,7 +6,6 @@ import { Models } from "appwrite";
 
 
 const Home = () => {
-
   const { data: posts, isPending: isPostLoading, isError: isErrorPosts } = useGetRecentPosts();
   if (isErrorPosts){
     return <div className="h-full w-full flex-center">Post's loading...</div>

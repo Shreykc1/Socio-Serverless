@@ -22,10 +22,9 @@ export const SignupValidation = z.object({
 
 
 
-  // export const ProfileValidation = z.object({
-  //   file: z.custom<File[]>(),
-  //   bio: z.string().min(4,{ message:"bio too short"}).max(100, {message:"bio too long!"})
-  // });
+  export const ReportValidation = z.object({
+    choice: z.string()
+  })
 
 
   export const ProfileValidation = z.object({

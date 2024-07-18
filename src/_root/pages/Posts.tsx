@@ -11,6 +11,7 @@ import GridPostsList from "@/components/shared/GridPostsList";
 import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const PostDetails = () => {
   const navigate = useNavigate();
@@ -34,6 +35,9 @@ const PostDetails = () => {
       return;
     }
   };
+
+
+
 
   return (
     <div className="post_details-container">
@@ -87,6 +91,7 @@ const PostDetails = () => {
               alt="logo"
               className={`${post.creator.isVerified ? "block" : "hidden"} w-5 mb-0 `}
             />
+            
                   </div>
 
                   <div className="flex-center gap-2 text-light-3">

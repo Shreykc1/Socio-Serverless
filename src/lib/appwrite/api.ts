@@ -776,7 +776,32 @@ export async function getSavedPosts(userID: string) {
       appwriteConfig.databaseId, 
       appwriteConfig.messageCollectionId,
         ID.unique(),
-        message);
+        message
+      );
     return response;
   };
   
+
+
+
+  // =================================== REPORT ==============>
+
+  export async function reportPost(choice:string,userID:string,postID:string) {
+    try {
+      const response = await databases.createDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.reportCollectionId,
+        ID.unique(),
+        {
+          choice:choice,  
+          users: [userID],
+          posts: [postID]
+        }
+      )
+
+      if (!response) throw Error;
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
