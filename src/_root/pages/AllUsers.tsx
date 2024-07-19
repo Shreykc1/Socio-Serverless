@@ -11,7 +11,7 @@ const AllUsers = () => {
   return (
     <>
       {!isPostLoading ? (
-        <ul className="user-container m-6">
+        <ul className="user-container custom-scrollbar overflow-y-scroll m-6">
 
           <li className="user-grid">
             {users?.documents.map((user: Models.Document) => (

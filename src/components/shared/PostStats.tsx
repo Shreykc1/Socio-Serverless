@@ -36,11 +36,6 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
       setIsSaved(!!savedPostRecord);
     }, [currentUser]);
 
-  //   useEffect(() => {
-  //     if (savedPostRecord) {
-  //         setIsSaved(!!savedPostRecord);
-  //     }
-  // }, [currentUser]);
   
     const handleLikePost = (
       e: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -97,7 +92,7 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
   
     return (
       <div
-        className={`flex ${spaceStyle} items-center z-20 ${containerStyles}`}>
+        className={`flex ${spaceStyle}  z-20 ${containerStyles}`}>
         <div className="flex gap-2 mr-5">
           <img
             src={`${
@@ -114,10 +109,10 @@ const PostStats = ({ post, userID }: PostStatsProps) => {
           <p className="small-medium lg:base-medium">{likes.length}</p>
         </div>
   
-        <div className={`flex gap-2 ${savedStyle} ${savesUser}`}>
+        <div className={`flex mr-4 ${savedStyle} ${savesUser}`}>
           <img
             src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
-            alt="share"
+            alt="saved"
             width={20}
             height={20}
             className="cursor-pointer"

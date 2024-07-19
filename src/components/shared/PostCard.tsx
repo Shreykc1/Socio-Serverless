@@ -49,17 +49,17 @@ const PostCard = ({ post }: PostCardProps) => {
 
              
             <div className="flex-center gap-2 text-light-3">
-              <p className="subtle-semibold lg:small-regular">
+              <p className="tiny-semibold lg:small-regular">
                 {formatDateString(post.$createdAt)}
               </p>
               -
-              <p className="subtle-semibold lg:small-regular">
+              <p className="tiny-semibold lg:small-regular">
                 {post.location}
               </p>
             </div>
           </div>
         </div>
-        <div className="ml-32">
+        <div className="ml-2 xs:ml-28">
                 <DropdownMenuu onReportClick={handleReportClick} userID={user.id} postID={post.$id}/>
           </div>
         <Link

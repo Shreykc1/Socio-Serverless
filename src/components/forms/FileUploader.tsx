@@ -59,7 +59,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ fieldChange, mediaURL }) =>
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: {
-            'image/*': ['.png', '.jpeg', '.jpg', '.svg', '.webp'],
+            'image/*': ['.png', '.jpeg', '.jpg', '.svg', '.webp','.gif'],
             'video/*': ['.mp4', '.mpeg', '.webm']
         }
     });

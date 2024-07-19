@@ -65,9 +65,16 @@
   .small-regular {
     @apply text-[14px] font-normal leading-[140%];
   }
+  .smallest-regular {
+    @apply text-[10px] font-normal leading-[140%];
+  }
 
   .subtle-semibold {
     @apply text-[12px] font-semibold leading-[140%];
+  }
+
+  .tiny-semibold {
+    @apply text-[10px] font-semibold leading-[140%];
   }
 
   .tiny-medium {

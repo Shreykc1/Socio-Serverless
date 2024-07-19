@@ -2,6 +2,7 @@ import express from 'express';
 import { Client, Account, Avatars, Databases, ID, Query } from 'appwrite';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 
 
 // Configuration object
@@ -205,6 +206,7 @@ app.get('/getPost/:id', async (req, res) => {
           appwriteConfig.postsCollectionId,
           postId
       );
+
       res.status(200).json(post);
   } catch (error) {
       res.status(500).send(error.message);
@@ -217,7 +219,7 @@ app.get('/getAllPosts', async (req, res) => {
           appwriteConfig.databaseId,
           appwriteConfig.postsCollectionId
       );
-      const posts = res.status(200).json(allPosts.documents);
+      const posts = res.status(200).json(allPosts.documents)
       
   } catch (error) {
       res.status(500).send(error.message);
@@ -259,7 +261,7 @@ app.get('/getUsers', async (req, res) => {
 });
 
 
-app.get('/', (res,req) =>{
+app.get('/', (req,res) =>{
   res.send = "Hello, welcome to my Backend!..."
 })
 
