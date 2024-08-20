@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Input } from "../ui/input";
+
 import {
   useGetUsers,
-  useSearchUsers,
+  
 } from "@/lib/react-query/queriesandmutations";
 import { Link } from "react-router-dom";
-import useDebounce from "@/hooks/useDebouncer";
-import SearchUsers from "./SearchUsers";
+
+import RightBarSkeleton from "../skeletons/RightBarSkeleton";
+
 
 
 const RightSidebar = () => {
@@ -16,20 +16,22 @@ const RightSidebar = () => {
   const {
     data: creators,
     isLoading: isUserLoading,
-    isError: isErrorCreators,
+    
   } = useGetUsers(0,true);
 
   
   return (
-    <section className="w-[465px] hidden md:block lg:block overflow-y-scroll custom-scrollbar ">
+    
+    <section className="w-[465px] hidden lg:block overflow-y-scroll custom-scrollbar ">
       <div className="flex flex-col mx-7 mb-5">
         <div className="flex justify-start">
           <h3 className="h2-bold my-14">Top Creators</h3>
         </div>
 
         <div>
+            {isUserLoading ? <RightBarSkeleton/> : 
           <ul className="flex flex-col gap-8">
-          {creators?.documents.filter(user => user.posts[0]?.imageURL).map((user, index) => {
+          {creators?.documents.filter(user => user.posts[0]?.imageURL).map((user) => {
   return (
     <li key={user.$id} className="h-48 overflow-hidden relative">
       <Link to={`/profile/${user.$id}`} className="top_link">
@@ -58,8 +60,12 @@ const RightSidebar = () => {
 
     </li>
   );
-})}
+}
+
+)}
+
           </ul>
+}
         </div>
       </div>
     </section>

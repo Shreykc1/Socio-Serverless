@@ -1,6 +1,6 @@
-import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
-import RightSidebar from "@/components/shared/RightSidebar";
+import RightSidebar from "@/components/shared/RightSidebar"; 
+import PostSkeleton from "@/components/skeletons/PostSkeleton";
 import { useGetRecentPosts } from "@/lib/react-query/queriesandmutations";
 import { Models } from "appwrite";
 
@@ -16,7 +16,7 @@ const Home = () => {
           <div className="home-posts">
               <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
               {isPostLoading && !posts ? (
-                  <Loader/>
+                  <PostSkeleton/>
               ) : (
                 <ul className="flex flex-col flex-1 gap-10 w-full">
                   {posts?.documents.map((posts: Models.Document) => (
